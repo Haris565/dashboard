@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { Table, Divider, Tag, Pagination } from "antd";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
+
 
 const columns = [
   {
@@ -9,17 +12,17 @@ const columns = [
     render: (text) => <a>{text}</a>
   },
   {
-    title: "Age",
+    title: "Contact",
     dataIndex: "age",
     key: "age"
   },
   {
-    title: "Address",
+    title: "Email",
     dataIndex: "address",
     key: "address"
   },
   {
-    title: "Tags",
+    title: "Services",
     key: "tags",
     dataIndex: "tags",
     render: (tags) => (
@@ -43,9 +46,9 @@ const columns = [
     key: "action",
     render: (text, record) => (
       <span>
-        <a>Invite {record.name}</a>
+        <a>Complete</a>
         <Divider type="vertical" />
-        <a>Delete</a>
+        <a>Reject</a>
       </span>
     )
   }
@@ -101,18 +104,48 @@ function Appointments() {
 
     const [current, setCurrent] = useState(1);
     return (
-        <React.Fragment>
-          <MyPagination
-            total={data.length}
-            current={current}
-            onChange={setCurrent}
-          />
-          <Table
-            columns={columns}
-            dataSource={getData(current, pageSize)}
-            pagination={false}
-          />
-        </React.Fragment>
+        <div>
+            <Navbar />
+            <div className='grid grid-cols-5'>
+            <div>
+                <div className='flex flex-grow h-full fixed'>
+                    <Sidebar />
+                </div>
+            </div>
+
+            <div className='col-span-4'>
+
+                <div className='mt-20 mr-10 flex flex-col'>
+
+                    <Table
+                        columns={columns}
+                        dataSource={getData(current, pageSize)}
+                        pagination={false}
+                        
+                    />
+                    <div className='ml-auto'>
+                    <MyPagination
+                        total={data.length}
+                        current={current}
+                        onChange={setCurrent}
+                        
+                    />
+
+                    </div>
+       
+
+                </div>
+              
+   
+             
+     
+    
+            </div>
+
+
+        </div>
+        </div>
+       
       );
 }
 
