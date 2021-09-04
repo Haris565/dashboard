@@ -148,7 +148,7 @@ function Profile() {
             </div>
             <div className=' xl:inline-flex xl:min-w-full h-screen'>
                 <ReactMapGL
-                    mapStyle="mapbox://styles/haris12345/cks9bi3kc2glk18mv4bhm5o62"
+                    mapStyle="mapbox://styles/haris12345/cks1jpw3a3c2o17qo51pcxjyj"
                     mapboxApiAccessToken="pk.eyJ1IjoiaGFyaXMxMjM0NSIsImEiOiJja3MxamtoZDEwMmJxMm5tZXkzeWI1YW02In0.D4tqetwrkn5HLrv7AYIMdQ"
                     {...viewport}
                     width="100%"

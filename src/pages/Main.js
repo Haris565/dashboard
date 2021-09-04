@@ -10,6 +10,7 @@ import Home from "./Home";
 import Login from "./Login";
 import Profile from "./Profile";
 import Salon from "./Salon";
+import Signup from "./Signup"
 
 function Main() {
 
@@ -35,7 +36,7 @@ function Main() {
         
         //     </Switch>
         // </Router>
-        <Appointments />
+        <Profile />
     )
 }
 

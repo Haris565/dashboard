@@ -5,7 +5,7 @@ import {
   import {SearchIcon, MenuIcon, UserCircleIcon, UserIcon, GlobeAltIcon, MenuAlt1Icon, LoginIcon} from "@heroicons/react/solid"
 function Navbar() {
     return (
-        <header className="sticky top-0 z-50 grid grid-cols-2 bg-gray-800 shadow-sm py-2 px-5 md:px-10  ">
+        <header className="sticky top-0 z-50 grid grid-cols-2 bg-gray-800 shadow-sm py-2 px-5 md:px-10   ">
 
         <div className='relative flex items-center h-10 cursor-pointer my-auto '>
             <MenuAlt1Icon className='text-white h-6'/>

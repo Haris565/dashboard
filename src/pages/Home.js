@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, Button, Calendar } from 'antd';
+import { Menu, Button, Calendar} from 'antd';
 import {
   AppstoreOutlined,
   MenuUnfoldOutlined,
@@ -9,7 +9,6 @@ import {
   ContainerOutlined,
   MailOutlined,
 } from '@ant-design/icons';
-import Header from '../components/Header';
 import PieChart from '../components/PieChart'
 import Navbar from '../components/Navbar';
 import LineGraph from '../components/LineGraph';
@@ -17,6 +16,10 @@ import LiquidGraph from '../components/LiquidGraph';
 import { TrendingUpIcon } from '@heroicons/react/solid';
 import { CalendarIcon } from '@heroicons/react/outline';
 import Sidebar from '../components/Sidebar';
+import { Layout } from 'antd';
+
+const { Header, Footer, Sider, Content } = Layout;
+
 
 const { SubMenu } = Menu;
 
@@ -33,20 +36,38 @@ function Home() {
     return (
 
 
-        <div className='bg-gray-800'>
-           
-            <Navbar />
-            <div className='grid grid-cols-5'>
-            
-            {/* ------------------------ Sidebar */}
+        <Layout>
+        
                 <div>
-                    <div className='flex flex-grow h-full fixed'>
-                        <Sidebar/>
-                    </div>
+                    <Navbar />
                 </div>
+            
+            <Layout>
+                <Sider style={{backgroundColor:"white"}}>
+                    <Sidebar />
+                </Sider>
+                <Content>Content</Content>
+            </Layout>
+                
+      </Layout>
+
+
+        // <div className='bg-white'>
+           
+        //    
+
+        //               {/* ------------------------ Sidebar */}
+        //     <div>
+        //         <div className='flex flex-grow h-full fixed'>
+        //             <Sidebar/>
+        //         </div>
+        //     </div>
+            /* <div className='grid grid-cols-5'>
+            
+  
 
                 <div className=' col-span-4 mt-10'>
-                    <div className='grid grid-cols-2'>
+                    <div className='grid grid-cols-1'>
                         <div className='h-80 '>
                             <PieChart />
                         </div>
@@ -80,8 +101,8 @@ function Home() {
               
                 
                 
-            </div>
-        </div>
+            </div> */
+        // </div>
     )
 }
 

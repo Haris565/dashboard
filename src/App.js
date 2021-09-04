@@ -14,6 +14,7 @@ import {Provider} from 'react-redux';
 import store from "./redux/store"
 import setAuthToken from './util/setAuthToken';
 import Main from './pages/Main';
+import Chat from './pages/Chat';
 
 
 if(localStorage.token){
@@ -25,7 +26,7 @@ if(localStorage.token){
 function App() {
   return (
     <Provider store={store}>
-      <Main/>
+      <Home />
     </Provider>
   );
 }
