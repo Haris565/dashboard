@@ -17,11 +17,14 @@ export const loadUser = () => async dispatch =>{
     }
 
     try {
-        const res = await axios.get("http://localhost:5000/api/salonAuth");
-        dispatch({
-            type:USER_LOADED,
-            payload:res.data
-        }) 
+        if(localStorage.token){
+            const res = await axios.get("http://localhost:5000/api/salon");
+            dispatch({
+                type:USER_LOADED,
+                payload:res.data
+            }) 
+        }
+  
     }
     catch(err){
         dispatch({
@@ -77,7 +80,7 @@ export const login =(email, password)=> async dispatch=>{
 
     axios.request({
         method: 'POST',
-        url: `http://localhost:5000/api/salonAuth`,
+        url: `http://localhost:5000/api/salon/login`,
         data:user
       
       }).then((res)=>{ 
@@ -90,18 +93,25 @@ export const login =(email, password)=> async dispatch=>{
         console.log("api call sucessfull",res.data.token);
       
       }).catch((err)=>{
+        // const error = err.response.data.error
+        console.log(err)
           dispatch({
-              type: LOGIN_FAIL
+         
+              type: LOGIN_FAIL,
+              payload: "error"
           })
-        console.log("api call unsucessfull",err);
+        // console.log("api call unsucessfull",err);
       
         
       })
 } 
 
 
-export const logout  = () => dispatch =>{
+export const logout  = () => async dispatch =>{
     dispatch({
         type:LOGOUT
     })
 }
+
+
+

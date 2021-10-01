@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { Table, Divider, Tag, Pagination } from "antd";
+import { Table, Divider, Tag, Pagination, Row, Col, Calendar } from "antd";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+import { Layout } from 'antd';
+import { SearchIcon, CalendarIcon } from "@heroicons/react/solid";
+
+const { Sider, Content } = Layout;
 
 
 const columns = [
@@ -78,7 +82,7 @@ const data = [
   }
 ];
 
-const pageSize = 2;
+const pageSize = 3;
 
 const getData = (current, pageSize) => {
   // Normally you should get the data from the server
@@ -102,20 +106,56 @@ const MyPagination = ({ total, onChange, current }) => {
 
 function Appointments() {
 
-    const [current, setCurrent] = useState(1);
-    return (
-        <div>
-            <Navbar />
-            <div className='grid grid-cols-5'>
-            <div>
-                <div className='flex flex-grow h-full fixed'>
-                    <Sidebar />
+    
+  const [current, setCurrent] = useState(1);
+  const [show, setshow] = useState(false)
+    
+
+    function onPanelChange(value, mode) {
+      console.log(value, mode);
+    }
+    return ( 
+      <Layout style={{backgroundColor:"#000C17"}}>
+      <Navbar />
+      <Layout>
+        <Sider  style={{backgroundColor:"#000C17",height: 'calc(100vh - 56px)'}}>
+        <Sidebar />
+        </Sider>
+        <Content className="mx-5" style={{backgroundColor:"#fff",height:'calc(100vh - 56px)', overflowY:"scroll" }}>
+
+          <Row>
+            <Col span={8} className='mt-5'>
+              
+            <CalendarIcon 
+              className='h-8 w-8 text-gray-400 cursor-pointer hover:scale-105 transition transform duration-200 ease-out ml-5' 
+              onClick={()=>setshow(!show)} 
+            />
+
+            {show && 
+              <div className="w-full border-2 border-gray-500">
+                <Calendar fullscreen={false} onPanelChange={onPanelChange} />
+                <div className='my-2'>
+                  <button className="p-2 bg-gray-700 text-white rounded-lg ">Search</button>
+                  <button className="p-2 bg-gray-700 text-white ml-2 rounded-lg">Cancel</button>
+                  
                 </div>
-            </div>
-
-            <div className='col-span-4'>
-
-                <div className='mt-20 mr-10 flex flex-col'>
+            
+              </div>
+            }
+              </Col>
+            <Col span={8} className='mt-5'></Col>
+            <Col span={8} className=' items-center text-center align-middle justify-center mt-5'>
+              <div className='flex flex-row align-middle justify-center items-center text-center bg-gray-300 rounded-sm w-9/12 mb-5'>
+                  <input type="text" name="" id="" placeholder="Search your contact" 
+                                className='w-8/12 p-2 bg-gray-300 outline-none rounded-sm'
+                  />
+                  <SearchIcon className="h-6 w-6 text-gray-900 rounded-full" />
+              </div>
+            </Col>
+          </Row>
+          <Row>
+   
+            <Col span={24}>
 
                     <Table
                         columns={columns}
@@ -123,29 +163,28 @@ function Appointments() {
                         pagination={false}
                         
                     />
-                    <div className='ml-auto'>
+
+            </Col>
+            <Col span={4} offset={20}>
                     <MyPagination
                         total={data.length}
                         current={current}
                         onChange={setCurrent}
                         
                     />
+            </Col>
+          
+          </Row>
+          
 
-                    </div>
-       
+                    
+               
+                    
+        </Content>
+      </Layout>
+      
+    </Layout>
 
-                </div>
-              
-   
-             
-     
-    
-            </div>
-
-
-        </div>
-        </div>
-       
       );
 }
 

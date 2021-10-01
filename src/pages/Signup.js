@@ -1,10 +1,10 @@
 import Header from "../components/Header"
 import { UserIcon, LockClosedIcon} from "@heroicons/react/solid"
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import {register} from "../redux/actions/auth";
 import { ToastContainer, toast } from 'react-toastify';
-
+import { Redirect } from 'react-router';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -14,12 +14,18 @@ function Signup() {
  
     const dispatch = useDispatch()
     const err= useSelector((state)=>state.auth.error)
+    const loading= useSelector((state)=>state.auth.loading)
+    const isAuthenticated = useSelector((state)=>state.auth.isAuthenticated)
   
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(register(email,password))
+       
+    }
+
+    useEffect(() => {
         err?.map((val,index)=>toast.error(`${val.msg}`,{
             toastId:index,
             position: "top-right",
@@ -29,15 +35,16 @@ function Signup() {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            }))
+        }))
+        
+    }, [err])
+
+
+    if(isAuthenticated){
+        return(<Redirect to="/" />)
     }
 
 
-    console.log(err)
-    console.log("----------------------------------------")
-    console.log("----------------------------------------")
-    console.log("----------------------------------------")
-    console.log("----------------------------------------")
     return (
         <div>
             <Header />
@@ -52,6 +59,7 @@ function Signup() {
                 draggable
                 pauseOnHover 
             />
+       
             <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md w-full space-y-8">
                     <div>

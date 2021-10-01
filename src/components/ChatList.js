@@ -5,7 +5,7 @@ import { DotsHorizontalIcon, TrashIcon } from "@heroicons/react/solid";
 
 const ChatList = () => {
     return (
-        <div className='flex w-full bg-indigo-100 rounded-lg p-2 items-center justify-between hover:scale-105 transition transform duration-200 ease-out mt-5 '>
+        <div className="flex w-full bg-white rounded-lg p-2 items-center justify-between cursor-pointer  mt-5">
             <div>
                 <Avatar size={44} icon={<UserOutlined className='' />} />
                 <span className='text-md font-medium text-center cursor-pointer ml-2'>Haris Naseem</span>

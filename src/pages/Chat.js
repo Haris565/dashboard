@@ -21,15 +21,15 @@ const Chat = () => {
             </div>
             
         <Layout>
-            <Sider style={{background:"white"}} >
+            <Sider style={{backgroundColor:"#001529" , height: 'calc(100vh - 56px)'}} >
                
                 <Sidebar />
                 
                 
             </Sider>
-            <Content className='bg-white' style={{ height: 'calc(100vh - 56px)', }}>
+            <Content className='bg-white' style={{ height: 'calc(100vh - 56px)', backgroundColor:"#000C17"  }}>
                 <Row>
-                    <Col span={15} style={{  height: 'calc(100vh - 56px)', }}>
+                    <Col span={15} style={{  height: 'calc(100vh - 56px)', backgroundColor:"#000C17"  }}>
                         
                         <div className='flex flex-col justify-between h-full'>
                             <div className='overflow-y-scroll scrollbar-hide '>
@@ -46,7 +46,7 @@ const Chat = () => {
                            
                             <div className='text-center '>
                                     <input type="text" name="" id="" className='w-8/12 p-2 my-5 mx-2 bg-gray-300 outline-none rounded-lg' placeholder="Type ...."/>
-                                    <span className='bg-gray-700 p-2 rounded-full cursor-pointer'> <SendOutlined style={{ fontSize: '16px', color: '#FFF', textAlign:"center"  }} /></span>
+                                    <span className='cursor-pointer'> <SendOutlined style={{ fontSize: "16px", color: '#1890FF', textAlign:"center"  }} /></span>
                             </div>
                            
                         </div>

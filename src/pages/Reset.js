@@ -1,20 +1,99 @@
 import { LockClosedIcon } from '@heroicons/react/solid'
-import React from 'react'
+import React,{useState, useEffect} from 'react'
 import Header from '../components/Header'
+import {useParams} from "react-router-dom";
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 function Reset() {
+
+    const [password, setpassword] = useState('')
+    const [confirm, setconfirm] = useState('')
+    const [response, setresponse] = useState('')
+    const [error, seterror] = useState('')
+    let { token } = useParams();
+
+
+    useEffect(() => {
+        if(response){
+            toast.success(`Password updated please login to continue`,{
+                toastId:'1',
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
+        }
+    }, [response])
+
+
+    
+    useEffect(() => {
+        if(error){
+            toast.error(`Cannot update password please try again`,{
+                toastId:'2',
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
+        }
+    }, [error])
+
+    const handleClick= (e) =>{
+        e.preventDefault()
+        console.log(token)
+        axios.request({
+            method: 'POST',
+            url: `http://localhost:5000/api/salon/newPassword`,
+            data:{
+                password,
+                token
+            }
+            
+          }).then((res)=>{ 
+              console.log(res);
+              setresponse(res.data.errors[0])
+       
+          
+          }).catch((err)=>{
+            console.log(err.response.data.errors[0])
+            seterror(err.response.data.errors[0])
+           
+          
+          
+            
+          })
+    }
     return (
         <div>
         <Header />
-        
+        <ToastContainer 
+            position="top-left"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover 
+        />
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
                 <div>
      
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Enter your new password</h2>
              
                 </div>
-                <form className="mt-8 space-y-6" action="#" method="POST">
+                <div className="mt-8 space-y-6" >
                 <input type="hidden" name="remember" defaultValue="true" />
                 <div className="rounded-md shadow-sm -space-y-px">
                
@@ -30,6 +109,8 @@ function Reset() {
                             required
                             className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                             placeholder="Password"
+                            value={password}
+                            onChange={(e)=>setpassword(e.target.value)}
                         />
                     </div>
                     <div>
@@ -37,13 +118,13 @@ function Reset() {
                             Confirm Password
                         </label>
                         <input
-                            id="password"
-                            name="password"
                             type="password"
                             autoComplete="current-password"
                             required
                             className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                             placeholder="Confirm Password"
+                            value={confirm}
+                            onChange={(e)=>setconfirm(e.target.value)}
                         />
                     </div>
                 </div>
@@ -52,8 +133,8 @@ function Reset() {
 
                 <div>
                     <button
-                    type="submit"
                     className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    onClick={(e)=>handleClick(e)}
                     >
                     <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                         <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
@@ -61,7 +142,7 @@ function Reset() {
                     Reset
                     </button>
                 </div>
-                </form>
+                </div>
             </div>
             </div>
 

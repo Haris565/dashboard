@@ -7,6 +7,14 @@ import { FilePond, registerPlugin } from "react-filepond";
 import { Input, InputNumber, TimePicker } from 'antd';
 import SmallCard from '../components/SmallCard';
 import { Modal } from 'antd';
+import { axios } from 'axios';
+import { Redirect } from 'react-router';
+//redux
+
+import { useDispatch, useSelector } from 'react-redux';
+import {profileComplete} from "../redux/actions/profile"
+
+
 
 // Import FilePond styles
 import "filepond/dist/filepond.min.css";
@@ -19,16 +27,23 @@ import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginFileEncode);
 
+
+
+
 function Profile() {
- 
     const [value, setvalue] = useState()
     const [price, setprice] = useState(0)
-    const [files, setFiles] = useState()
+    const [name, setname] = useState('')
+    const [description, setdescription] = useState('')
+    const [number, setnumber] = useState('')
+    const [address, setaddress] = useState()
+    const [city, setcity] = useState('')
+    const [time, settime] = useState()
     const [services, setservices] = useState([])
+    const [files, setFiles] = useState()
     const [viewport, setviewport] = useState({
        
         latitude: 37.7577,
@@ -36,6 +51,14 @@ function Profile() {
         zoom: 8
     })
     const [isModalVisible, setIsModalVisible] = useState(false);
+
+    //dispatch
+
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.auth.user)
+    console.log("profileStatus",user?.profileComplete)
+
+    //functions
 
     const showModal = () => {
       setIsModalVisible(true);
@@ -58,7 +81,7 @@ function Profile() {
     };
 
     const removeItem = (name) => {
-        let newState = services.filter((item)=>item.service!=name);
+        let newState = services.filter((item)=>item.service!==name);
         setservices(newState)
     }
 
@@ -74,9 +97,37 @@ function Profile() {
           });
     }, [])
 
+    const submitHandler = (e) =>{
+        e.preventDefault()
+        let profile = {
+            name:name,
+            description:description,
+            number:number,
+            address:{
+                address:address,
+                city:city
+            },
+            time:time,
+            services:services,
+            image:files[0].getFileEncodeBase64String(),
+            location:{
+                type:"Point",
+                coordinates:[viewport.latitude, viewport.longitude]
+            }
+            
+        }
+        console.log(profile)
+        dispatch(profileComplete(profile))
+    }
 
+  
+    if(user?.profileComplete ){
+        return(<Redirect to="/" />)
+    }
+   
 
     return (
+       
         <div>
             <Header />
             <div className='grid grid-cols-3'>
@@ -87,25 +138,62 @@ function Profile() {
                     </h4>
                     <div className='flex flex-col items-center w-full px-20 mt-5'>
                         <input
-                        type="text" placeholder="Your Business Name" 
-                        class="text-sm text-gray-base w-full 
+                                type="text" placeholder="Your Business Name" 
+                                class="text-sm text-gray-base w-full 
                                 mr-3 py-5 px-4 h-2 border-2 
                                 border-gray-700 rounded mb-2 outline-none" 
+                                value={name}
+                                onChange={(e)=>setname(e.target.value)}
                         />
                         <textarea name="" id="" cols="30" rows="10" placeholder="Describe Your Business"    
-                        class="text-sm text-gray-base w-full 
+                                class="text-sm text-gray-base w-full 
                                 mr-3 py-5 px-4  border-2 
-                                border-gray-700 rounded mb-2 outline-none resize-none h-24" >
+                                border-gray-700 rounded mb-2 outline-none resize-none h-24" 
+                                value={description}
+                                onChange={(e)=>setdescription(e.target.value)}
+                            >
+                                    
 
                         </textarea>
             
                     </div>
+
+                    <div className='flex flex-col items-center w-full px-20'>
+                        <input type="text" name="city" id="city" 
+                        class="text-sm text-gray-base w-full 
+                        mr-3 py-5 px-4 h-2 border-2 
+                        border-gray-700 rounded mb-2 outline-none" placeholder="Phone number"
+                        value={number}
+                        onChange={e=>setnumber(e.target.value)}   
+                        />   
+                                
+                    
+                        <input type="text" name="street-address" id="street-address" autocomplete="street-address" placeholder="Enter your address"
+                        class="text-sm text-gray-base w-full 
+                        mr-3 py-5 px-4 h-2 border-2 
+                        border-gray-700 rounded mb-2 outline-none" 
+                        value={address}
+                        onChange={(e)=>setaddress(e.target.value)}
+                        
+                        />
+                                            
+                    
+                        <input type="text" name="city" id="city" 
+                        class="text-sm text-gray-base w-full 
+                        mr-3 py-5 px-4 h-2 border-2 
+                        border-gray-700 rounded mb-2 outline-none" placeholder="City"  
+                        value={city}
+                        onChange={(e)=>setcity(e.target.value)}
+                        />
+
+                    </div>
+                   
                     <div className='grid grid-cols-2 px-20 py-6'>
                         <div className='px-12'>
                             <p className='text-gray-500 font-semibold text-sm'>Enter your salons opening and closing time</p>
                         </div>
                         <div className='ml-auto'>
-                            <TimePicker.RangePicker className='' />
+                            <TimePicker.RangePicker className='' onChange={(time,timeString)=>{settime(timeString)}} />
                         </div>
 
                     </div>
@@ -135,9 +223,13 @@ function Profile() {
                             onupdatefiles={setFiles}
                             labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
                         />
+                       
+                        
                     </div>
-                    <div className='flex flex-grow px-20 mt-5'>
-                        <button className='text-white font-bold bg-indigo-600 p-4 cursor-pointer hover:scale-105 transition transform duration-200 ease-out w-full '>
+                    <div className='flex flex-grow px-20 mt-5' onClick={(e)=>submitHandler(e)}>
+                        <button 
+                        
+                        className='text-white font-bold bg-indigo-600 p-4 cursor-pointer hover:scale-105 transition transform duration-200 ease-out w-full '>
                             Submit
                         </button>
                     </div>

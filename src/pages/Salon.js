@@ -1,14 +1,13 @@
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import {useState,useEffect} from 'react'
+import {useState,useEffect, useRef} from 'react'
 import ReactMapGL from 'react-map-gl';
 import { Marker, Popup } from 'react-map-gl';
-import Header from '../components/Header';
 import { LocationMarkerIcon, PlusIcon} from "@heroicons/react/outline"
 import { FilePond, registerPlugin } from "react-filepond";
-import { Input, InputNumber, TimePicker } from 'antd';
+import { Input, InputNumber, TimePicker, Layout, Modal, Row, Col, Image } from 'antd';
 import SmallCard from '../components/SmallCard';
-import { Modal } from 'antd';
+
 
 // Import FilePond styles
 import "filepond/dist/filepond.min.css";
@@ -22,8 +21,13 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
+
+
+
+
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginFileEncode);
+const { Footer, Sider, Content } = Layout;
 
 function Salon() {
 
@@ -38,6 +42,7 @@ function Salon() {
         zoom: 8
     })
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const inputRef = useRef(null)
 
     const showModal = () => {
       setIsModalVisible(true);
@@ -76,51 +81,100 @@ function Salon() {
           });
     }, [])
 
+
     return (
-        <div>
+        
+
+
+        <Layout>
             <Navbar />
-            <div className='grid grid-cols-5'>
-                <div>
-                <div className='flex flex-grow h-full fixed'>
+            <Layout>
+                <Sider style={{backgroundColor:"#001529" , height: 'calc(100vh - 56px)'}}>
                     <Sidebar />
-                </div>
-                </div>
-            
-                <div className='col-span-4'>
-                    <div className='grid grid-cols-1'>
-                        {/* ----------------------------------------------------------------------- */}
-
-
-
-                        <div>
-           
-            <div className='grid grid-cols-3'>
-            <div className='col-span-3'>
-                <div className='max-w-7xl mx-auto flex flex-col flex-wrap align-middle content-center '>
+                </Sider>
+                <Content style={{ height: 'calc(100vh - 56px)',backgroundColor:"#000C17", overflowY:"scroll"}} >
+                    <Row >
+                        <Col span={24} className="">
+                            
+                        <div className='max-w-7xl mx-auto flex flex-col flex-wrap align-middle content-center  '>
                     <h4 className="text-xl font-bold text-gray-500 mt-5 px-20"> 
                         Edit Your Profile
                     </h4>
+                    <div className='px-20 flex flex-col w-full'>
+                        <div>
+                            <img
+                                className="w-full h-36 object-contain"
+                                preview={false}
+                                src="https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg"
+                                alt="Your"
+                            />
+                        </div>
+
+                        <div className="">
+                            <FilePond
+                                files={files}
+                                allowMultiple={false}
+                                onupdatefiles={setFiles}
+                                labelIdle='<span class="filepond--label-action" style={{backgroundColor:"black"}}>Upload Pic</span>'
+                                
+                            />
+                            
+                        </div>
+                    </div>
+
+                    
+          
                     <div className='flex flex-col items-center w-full px-20 mt-5'>
                         <input
                         type="text" placeholder="Your Business Name" 
                         class="text-sm text-gray-base w-full 
+                                bg-gray-700
                                 mr-3 py-5 px-4 h-2 border-2 
                                 border-gray-700 rounded mb-2 outline-none" 
                         />
                         <textarea name="" id="" cols="30" rows="10" placeholder="Describe Your Business"    
                         class="text-sm text-gray-base w-full 
                                 mr-3 py-5 px-4  border-2 
+                                bg-gray-700
                                 border-gray-700 rounded mb-2 outline-none resize-none h-24" >
 
                         </textarea>
+          
+                        
+                   
+                        <input type="text" name="city" id="city" 
+                class="text-sm text-gray-base w-full 
+                mr-3 py-5 px-4 h-2 border-2 
+                bg-gray-700
+                border-gray-700 rounded mb-2 outline-none" placeholder="Phone number"   />   
+                        
+              
+                <input type="text" name="street-address" id="street-address" autocomplete="street-address" placeholder="Enter your address"
+                 class="text-sm text-gray-base w-full 
+                 mr-3 py-5 px-4 h-2 border-2 
+                 bg-gray-700
+                 border-gray-700 rounded mb-2 outline-none"  />
+                                      
+             
+                        <input type="text" name="city" id="city" 
+                class="text-sm text-gray-base w-full 
+                mr-3 py-5 px-4 h-2 border-2 
+                bg-gray-700
+                border-gray-700 rounded mb-2 outline-none" placeholder="City"  />
+                       
+            
+
+             
+               
             
                     </div>
+                  
                     <div className='grid grid-cols-2 px-20 py-6'>
                         <div className='px-12'>
                             <p className='text-gray-500 font-semibold text-sm'>Enter your salons opening and closing time</p>
                         </div>
                         <div className='ml-auto'>
-                            <TimePicker.RangePicker className='' />
+                            <TimePicker.RangePicker className='bg-gray-700' />
                         </div>
 
                     </div>
@@ -143,17 +197,10 @@ function Salon() {
 
                     </div>
 
-                    {/* <div className="px-20">
-                        <FilePond
-                            files={files}
-                            allowMultiple={false}
-                            onupdatefiles={setFiles}
-                            labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-                        />
-                    </div> */}
+               
                     <div className='h-80 mx-20'>
                         <ReactMapGL
-                            mapStyle="mapbox://styles/haris12345/cks9bi3kc2glk18mv4bhm5o62"
+                               mapStyle="mapbox://styles/haris12345/cks1jpw3a3c2o17qo51pcxjyj"
                             mapboxApiAccessToken="pk.eyJ1IjoiaGFyaXMxMjM0NSIsImEiOiJja3MxamtoZDEwMmJxMm5tZXkzeWI1YW02In0.D4tqetwrkn5HLrv7AYIMdQ"
                             {...viewport}
                             width="100%"
@@ -183,35 +230,61 @@ function Salon() {
                             Submit
                         </button>
                     </div>
-                    
-                </div>
-    
-               
-            </div>
- 
-
-            </div>
-            <>
+                    <>
                 <Modal title="Add Your Service" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                     <Input placeholder="Service Name" value={value} onChange={(e)=>setvalue(e.target.value)} />
                     <Input suffix="PKR" value={price} onChange={e=>setprice(e.target.value)} />
                 </Modal>
             </>
-        </div>
-
-
-
-                        {/* --------------------------------------------------------------------------- */}
-                        
-                        <div></div>
-                   
-
-                    </div>
                     
                 </div>
+                        </Col>
+                    </Row>
+                </Content>
+            </Layout>
+        </Layout>
+        // <div>
+        //     <Navbar />
+        //     <div className='grid grid-cols-5'>
+        //         <div>
+        //         <div className='flex flex-grow h-full fixed'>
+        //             <Sidebar />
+        //         </div>
+        //         </div>
+            
+        //         <div className='col-span-4'>
+        //             <div className='grid grid-cols-1'>
+        //                 {/* ----------------------------------------------------------------------- */}
 
-            </div>
-        </div>
+
+
+        //                 <div>
+           
+        //     <div className='grid grid-cols-3'>
+        //     <div className='col-span-3'>
+
+    
+               
+        //     </div>
+ 
+
+        //     </div>
+
+        // </div>
+
+
+
+        //                 {/* --------------------------------------------------------------------------- */}
+                        
+        //                 <div></div>
+                   
+
+        //             </div>
+                    
+        //         </div>
+
+        //     </div>
+        // </div>
     )
 }
 
