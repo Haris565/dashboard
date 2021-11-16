@@ -14,6 +14,7 @@ import Messages from "./pages/Chat"
 import {  Switch, Route } from "react-router-dom";
 
 import {loadUser} from "./redux/actions/auth"
+import AcceptedTable from "./pages/AcceptedTable";
 
 
 
@@ -70,9 +71,15 @@ function App() {
             </Route>
 
             <Route path="/allAppointments"> 
-                <Appointments />
+                {/* <Appointments /> */}
+                <AcceptedTable />
             </Route>
-       
+
+            <Route path="/accepted"> 
+            <AcceptedTable />
+            </Route>
+            
+            
          
           
           

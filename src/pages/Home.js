@@ -127,6 +127,7 @@ function Home() {
                     </Col>
                 </Row>
                 <Divider orientation="left" className='mt-5'> Details</Divider>
+                
                 <Row>
 
                     <Col span={12}>

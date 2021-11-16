@@ -5,7 +5,7 @@ import ReactMapGL from 'react-map-gl';
 import { Marker, Popup } from 'react-map-gl';
 import { LocationMarkerIcon, PlusIcon} from "@heroicons/react/outline"
 import { FilePond, registerPlugin } from "react-filepond";
-import { Input, InputNumber, TimePicker, Layout, Modal, Row, Col, Image } from 'antd';
+import { Input, InputNumber, TimePicker, Layout, Modal, Row, Col, Image, Spin } from 'antd';
 import SmallCard from '../components/SmallCard';
 
 
@@ -20,6 +20,7 @@ import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import axios from "axios"
 
 
 
@@ -30,6 +31,16 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, F
 const { Footer, Sider, Content } = Layout;
 
 function Salon() {
+
+    const [loading, setloading] = useState(false)
+
+    const [image, setimage] = useState('')
+    const [name, setname] = useState('')
+    const [description, setdescription] = useState('')
+    const [number, setnumber] = useState('')
+    const [address, setaddress] = useState()
+    const [city, setcity] = useState('')
+
 
     const [value, setvalue] = useState()
     const [price, setprice] = useState(0)
@@ -69,16 +80,30 @@ function Salon() {
         setservices(newState)
     }
 
-    
+
 
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition(function(position) {
-                setviewport({
-                    latitude:position.coords.latitude,
-                    longitude:position.coords.longitude,
-                    zoom:16
-                })
-          });
+        console.log("Fetch Salon")
+        setloading(true)
+        const fetchSalon = async ()=> {
+            let res = await axios.get("http://localhost:5000/api/salon/getProfile")
+            console.log(res)
+            setimage(res.data.image)
+            setservices(res.data.services)
+            setnumber(res.data.number)
+            setname(res.data.name)
+            setdescription(res.data.description)
+            setaddress(res.data.address.address)
+            setcity(res.data.address.city)
+            setviewport({
+                latitude: res.data.location.coordinates[0],
+                longitude:  res.data.location.coordinates[1],
+                zoom: 16
+            })
+            setloading(false)
+
+        }
+        fetchSalon()
     }, [])
 
 
@@ -93,7 +118,17 @@ function Salon() {
                     <Sidebar />
                 </Sider>
                 <Content style={{ height: 'calc(100vh - 56px)',backgroundColor:"#000C17", overflowY:"scroll"}} >
+                    
+             
                     <Row >
+                        {
+                            loading? 
+                        <div className='flex justify-center align-middle items-center w-full h-screen'>
+                            <Spin size="large" />
+                        </div> 
+                       
+                        
+                        :
                         <Col span={24} className="">
                             
                         <div className='max-w-7xl mx-auto flex flex-col flex-wrap align-middle content-center  '>
@@ -103,14 +138,15 @@ function Salon() {
                     <div className='px-20 flex flex-col w-full'>
                         <div>
                             <img
-                                className="w-full h-36 object-contain"
+                                className="w-full h-36 object-cover"
                                 preview={false}
-                                src="https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg"
+                                src={image}
+                                // src="https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg"
                                 alt="Your"
                             />
                         </div>
 
-                        <div className="">
+                        {/* <div className="">
                             <FilePond
                                 files={files}
                                 allowMultiple={false}
@@ -119,7 +155,7 @@ function Salon() {
                                 
                             />
                             
-                        </div>
+                        </div> */}
                     </div>
 
                     
@@ -127,15 +163,19 @@ function Salon() {
                     <div className='flex flex-col items-center w-full px-20 mt-5'>
                         <input
                         type="text" placeholder="Your Business Name" 
+                        value={name}
                         class="text-sm text-gray-base w-full 
                                 bg-gray-700
+                                text-white
                                 mr-3 py-5 px-4 h-2 border-2 
                                 border-gray-700 rounded mb-2 outline-none" 
                         />
-                        <textarea name="" id="" cols="30" rows="10" placeholder="Describe Your Business"    
+                        <textarea name="" id="" cols="30" rows="10" placeholder="Describe Your Business"
+                        value={description}
                         class="text-sm text-gray-base w-full 
                                 mr-3 py-5 px-4  border-2 
                                 bg-gray-700
+                                text-white
                                 border-gray-700 rounded mb-2 outline-none resize-none h-24" >
 
                         </textarea>
@@ -143,23 +183,29 @@ function Salon() {
                         
                    
                         <input type="text" name="city" id="city" 
+                        value={number}
                 class="text-sm text-gray-base w-full 
                 mr-3 py-5 px-4 h-2 border-2 
                 bg-gray-700
+                text-white
                 border-gray-700 rounded mb-2 outline-none" placeholder="Phone number"   />   
                         
               
                 <input type="text" name="street-address" id="street-address" autocomplete="street-address" placeholder="Enter your address"
+                 value={address}
                  class="text-sm text-gray-base w-full 
                  mr-3 py-5 px-4 h-2 border-2 
                  bg-gray-700
+                 text-white
                  border-gray-700 rounded mb-2 outline-none"  />
                                       
              
                         <input type="text" name="city" id="city" 
+                        value={city}
                 class="text-sm text-gray-base w-full 
                 mr-3 py-5 px-4 h-2 border-2 
                 bg-gray-700
+                text-white
                 border-gray-700 rounded mb-2 outline-none" placeholder="City"  />
                        
             
@@ -168,16 +214,16 @@ function Salon() {
                
             
                     </div>
-                  
+{/*                   
                     <div className='grid grid-cols-2 px-20 py-6'>
                         <div className='px-12'>
-                            <p className='text-gray-500 font-semibold text-sm'>Enter your salons opening and closing time</p>
+                            <p className='text-gray-500 font-semibold text-sm'>Reset your salons opening and closing time</p>
                         </div>
                         <div className='ml-auto'>
                             <TimePicker.RangePicker className='bg-gray-700' />
                         </div>
 
-                    </div>
+                    </div> */}
                     <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-20'>
                         {services?.map((item, index)=>{
                         return(
@@ -225,20 +271,20 @@ function Salon() {
                         </ReactMapGL>
                 
             </div>
-                    <div className='flex flex-grow px-20 mt-5'>
+                    <div className='flex flex-grow px-20 mt-5 mb-5'>
                         <button className='text-white font-bold bg-indigo-600 p-4 cursor-pointer hover:scale-105 transition transform duration-200 ease-out w-full '>
-                            Submit
+                            Update
                         </button>
                     </div>
                     <>
-                <Modal title="Add Your Service" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                    <Input placeholder="Service Name" value={value} onChange={(e)=>setvalue(e.target.value)} />
-                    <Input suffix="PKR" value={price} onChange={e=>setprice(e.target.value)} />
-                </Modal>
-            </>
+                        <Modal title="Add Your Service" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                            <Input placeholder="Service Name" value={value} onChange={(e)=>setvalue(e.target.value)} />
+                            <Input suffix="PKR" value={price} onChange={e=>setprice(e.target.value)} />
+                        </Modal>
+                    </>
                     
                 </div>
-                        </Col>
+                        </Col>}
                     </Row>
                 </Content>
             </Layout>

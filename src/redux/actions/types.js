@@ -7,3 +7,4 @@ export const LOGIN_FAIL= 'LOGIN_FAIL';
 export const LOGOUT= 'LOGOUT';
 export const PROFILE_COMPLETE= 'PROFILE_COMPLETE';
 export const PROFILE_ERROR= 'PROFILE_ERROR';
+export const PROFILE_ATTEMPT= 'PROFILE_ATTEMPT';

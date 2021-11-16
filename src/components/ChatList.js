@@ -5,10 +5,10 @@ import { DotsHorizontalIcon, TrashIcon } from "@heroicons/react/solid";
 
 const ChatList = () => {
     return (
-        <div className="flex w-full bg-white rounded-lg p-2 items-center justify-between cursor-pointer  mt-5">
-            <div>
-                <Avatar size={44} icon={<UserOutlined className='' />} />
-                <span className='text-md font-medium text-center cursor-pointer ml-2'>Haris Naseem</span>
+        <div className="flex w-full bg-gray-700 rounded-lg p-2 items-center justify-between cursor-pointer  mt-5">
+            <div className='flex flex-row'>
+                <img className="w-8 h-8 rounded-full" src="https://randomuser.me/api/portraits/men/1.jpg"/>
+                <span className='text-md font-medium text-center cursor-pointer ml-2 text-white'>Haris Naseem</span>
             </div>
              
               <div className='bg-white p-2 rounded-full cursor-pointer '>

@@ -2,7 +2,8 @@ import {
     MenuUnfoldOutlined,
     MenuFoldOutlined,
   } from '@ant-design/icons';
-  import {SearchIcon, MenuIcon, UserCircleIcon, UserIcon, GlobeAltIcon, MenuAlt1Icon, LoginIcon} from "@heroicons/react/solid"
+import {SearchIcon, MenuIcon, UserCircleIcon, UserIcon, GlobeAltIcon, MenuAlt1Icon, LoginIcon} from "@heroicons/react/solid"
+
 function Navbar() {
     return (
         <header className="sticky top-0 z-50 grid grid-cols-2 bg-gray-800 shadow-sm py-2 px-5 md:px-10   ">

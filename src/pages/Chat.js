@@ -44,9 +44,9 @@ const Chat = () => {
                         
                             </div>
                            
-                            <div className='text-center '>
-                                    <input type="text" name="" id="" className='w-8/12 p-2 my-5 mx-2 bg-gray-300 outline-none rounded-lg' placeholder="Type ...."/>
-                                    <span className='cursor-pointer'> <SendOutlined style={{ fontSize: "16px", color: '#1890FF', textAlign:"center"  }} /></span>
+                            <div className='text-center bg-gray-900 flex justify-center align-middle items-center '>
+                                    <input type="text" name="" id="" className='w-8/12 p-2 my-5 mx-2 text-white bg-gray-600 outline-none rounded-lg' placeholder="Type ...."/>
+                                    <span className='cursor-pointer'> <SendOutlined style={{ fontSize: "20px", color: 'white', textAlign:"center"  }} /></span>
                             </div>
                            
                         </div>
@@ -58,7 +58,7 @@ const Chat = () => {
                     <Col span={8} style={{}}>
                         <div className=''>
                             <input type="text" name="" id="" placeholder="Search your contact" 
-                                className='w-11/12 p-2 my-5 mx-2 bg-gray-300 outline-none rounded-lg'
+                                className='w-11/12 p-2 my-5 mx-2 bg-gray-700 text-white outline-none rounded-lg'
                             />
                          
                             <div className='m-2 overflow-y-scroll scrollbar-hide'>

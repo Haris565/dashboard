@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 
 function Header() {
     return (
-        <header className="sticky top-0 z-50 grid grid-cols-2 bg-gray-800 shadow-md py-5 px-5 md:px-10 ">
+        <header className="sticky top-0 z-50 grid grid-cols-2 bg-gray-900 shadow-md py-5 px-5 md:px-10 ">
 
         <div className='relative flex items-center h-10 cursor-pointer my-auto'>
             {/* <img src="https://links.papareact.com/qd3" 

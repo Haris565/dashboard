@@ -9,10 +9,11 @@ import SmallCard from '../components/SmallCard';
 import { Modal } from 'antd';
 import { axios } from 'axios';
 import { Redirect } from 'react-router';
+import { Spin } from 'antd';
 //redux
 
 import { useDispatch, useSelector } from 'react-redux';
-import {profileComplete} from "../redux/actions/profile"
+
 
 
 
@@ -27,6 +28,7 @@ import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import { profileComplete } from './../redux/actions/profile';
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginFileEncode);
 
@@ -56,6 +58,7 @@ function Profile() {
 
     const dispatch = useDispatch()
     const user = useSelector(state => state.auth.user)
+    const loading = useSelector(state => state.profile.loading)
     console.log("profileStatus",user?.profileComplete)
 
     //functions
@@ -127,28 +130,34 @@ function Profile() {
    
 
     return (
-       
+      
         <div>
+           
+            
             <Header />
-            <div className='grid grid-cols-3'>
-            <div className='col-span-2'>
+            <div className='grid grid-cols-3 bg-gray-800'>
+            <div className='col-span-2 overflow-y-scroll' style={{height:"780px"}}>
                 <div className='max-w-7xl mx-auto flex flex-col flex-wrap align-middle content-center '>
-                    <h4 className="text-xl font-bold text-gray-500 mt-5 px-20"> 
+                    <h4 className="text-xl font-bold text-gray-00 mt-5 px-20 text-white"> 
                         Setup Your Profile
                     </h4>
                     <div className='flex flex-col items-center w-full px-20 mt-5'>
                         <input
                                 type="text" placeholder="Your Business Name" 
-                                class="text-sm text-gray-base w-full 
+                                className="text-sm text-gray-base w-full 
+                                bg-gray-700
+                                text-white
                                 mr-3 py-5 px-4 h-2 border-2 
                                 border-gray-700 rounded mb-2 outline-none" 
                                 value={name}
                                 onChange={(e)=>setname(e.target.value)}
                         />
                         <textarea name="" id="" cols="30" rows="10" placeholder="Describe Your Business"    
-                                class="text-sm text-gray-base w-full 
-                                mr-3 py-5 px-4  border-2 
-                                border-gray-700 rounded mb-2 outline-none resize-none h-24" 
+                                  className="text-sm text-gray-base w-full 
+                                  mr-3 py-5 px-4  border-2 
+                                  bg-gray-700
+                                  text-white
+                                  border-gray-700 rounded mb-2 outline-none resize-none h-24" 
                                 value={description}
                                 onChange={(e)=>setdescription(e.target.value)}
                             >
@@ -160,16 +169,20 @@ function Profile() {
 
                     <div className='flex flex-col items-center w-full px-20'>
                         <input type="text" name="city" id="city" 
-                        class="text-sm text-gray-base w-full 
-                        mr-3 py-5 px-4 h-2 border-2 
-                        border-gray-700 rounded mb-2 outline-none" placeholder="Phone number"
+                     className="text-sm text-gray-base w-full 
+                     bg-gray-700
+                     text-white
+                     mr-3 py-5 px-4 h-2 border-2 
+                     border-gray-700 rounded mb-2 outline-none" placeholder="Phone number"
                         value={number}
                         onChange={e=>setnumber(e.target.value)}   
                         />   
                                 
                     
                         <input type="text" name="street-address" id="street-address" autocomplete="street-address" placeholder="Enter your address"
-                        class="text-sm text-gray-base w-full 
+                        className="text-sm text-gray-base w-full 
+                        bg-gray-700
+                        text-white
                         mr-3 py-5 px-4 h-2 border-2 
                         border-gray-700 rounded mb-2 outline-none" 
                         value={address}
@@ -179,9 +192,11 @@ function Profile() {
                                             
                     
                         <input type="text" name="city" id="city" 
-                        class="text-sm text-gray-base w-full 
-                        mr-3 py-5 px-4 h-2 border-2 
-                        border-gray-700 rounded mb-2 outline-none" placeholder="City"  
+                       className="text-sm text-gray-base w-full 
+                       bg-gray-700
+                       mr-3 py-5 px-4 h-2 border-2 
+                       text-white
+                       border-gray-700 rounded mb-2 outline-none"  placeholder="City"  
                         value={city}
                         onChange={(e)=>setcity(e.target.value)}
                         />
@@ -227,18 +242,27 @@ function Profile() {
                         
                     </div>
                     <div className='flex flex-grow px-20 mt-5' onClick={(e)=>submitHandler(e)}>
+
+                        {loading ?                        
                         <button 
                         
+                        className='text-white font-bold bg-gray-300 p-4 cursor-pointer hover:scale-105 transition transform duration-200 ease-out w-full '>
+                            <Spin />
+                        </button>: 
+                                               
+                        <button 
+
                         className='text-white font-bold bg-indigo-600 p-4 cursor-pointer hover:scale-105 transition transform duration-200 ease-out w-full '>
                             Submit
-                        </button>
+                        </button> }
+ 
                     </div>
                     
                 </div>
     
                
             </div>
-            <div className=' xl:inline-flex xl:min-w-full h-screen'>
+            <div className=' xl:inline-flex xl:min-w-full' style={{height:"780px"}}>
                 <ReactMapGL
                     mapStyle="mapbox://styles/haris12345/cks1jpw3a3c2o17qo51pcxjyj"
                     mapboxApiAccessToken="pk.eyJ1IjoiaGFyaXMxMjM0NSIsImEiOiJja3MxamtoZDEwMmJxMm5tZXkzeWI1YW02In0.D4tqetwrkn5HLrv7AYIMdQ"
@@ -273,6 +297,7 @@ function Profile() {
                     <Input suffix="PKR" value={price} onChange={e=>setprice(e.target.value)} />
                 </Modal>
             </>
+            
         </div>
       
             

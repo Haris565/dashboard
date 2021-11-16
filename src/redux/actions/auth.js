@@ -90,15 +90,12 @@ export const login =(email, password)=> async dispatch=>{
               payload: res.data
           })
           dispatch( loadUser());
-        console.log("api call sucessfull",res.data.token);
       
       }).catch((err)=>{
-        // const error = err.response.data.error
-        console.log(err)
           dispatch({
          
               type: LOGIN_FAIL,
-              payload: "error"
+              payload: err.response.data.error
           })
         // console.log("api call unsucessfull",err);
       
