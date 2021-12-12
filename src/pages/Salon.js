@@ -21,6 +21,8 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import axios from "axios"
+import { profileComplete } from './../redux/actions/profile';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
@@ -31,7 +33,8 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, F
 const { Footer, Sider, Content } = Layout;
 
 function Salon() {
-
+    const dispatch = useDispatch()
+    const profile = useSelector(state => state.profile.profile)
     const [loading, setloading] = useState(false)
 
     const [image, setimage] = useState('')
@@ -80,31 +83,58 @@ function Salon() {
         setservices(newState)
     }
 
+    const fetchSalon = async ()=> {
+        let res = await axios.get("http://localhost:5000/api/salon/getProfile")
+        console.log(res)
+       
+        setservices(res.data.services)
+        setnumber(res.data.number)
+        setname(res.data.name)
+        setdescription(res.data.description)
+        setaddress(res.data.address.address)
+        setviewport({
+            latitude: res.data.location.coordinates[0],
+            longitude:  res.data.location.coordinates[1],
+            zoom: 16
+        })
+        setloading(false)
+
+    }
+
 
 
     useEffect(() => {
         console.log("Fetch Salon")
         setloading(true)
-        const fetchSalon = async ()=> {
-            let res = await axios.get("http://localhost:5000/api/salon/getProfile")
-            console.log(res)
-            setimage(res.data.image)
-            setservices(res.data.services)
-            setnumber(res.data.number)
-            setname(res.data.name)
-            setdescription(res.data.description)
-            setaddress(res.data.address.address)
-            setcity(res.data.address.city)
-            setviewport({
-                latitude: res.data.location.coordinates[0],
-                longitude:  res.data.location.coordinates[1],
-                zoom: 16
-            })
-            setloading(false)
-
-        }
         fetchSalon()
-    }, [])
+    }, [profile])
+
+
+    const submitHandler = async () => {
+        try {
+            setloading(true)
+            let profile = {
+                name:name,
+                services:services,
+                description:description,
+                number:number,
+                address:{
+                    address:address,
+                    city:city
+                },
+                location:{
+                    type:"Point",
+                    coordinates:[viewport.latitude, viewport.longitude]
+                }
+                
+            }
+            dispatch(profileComplete(profile))
+            
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
 
 
     return (
@@ -276,11 +306,18 @@ function Salon() {
                 
                     </div>
                     <div className='flex flex-grow px-20 mt-5 mb-5'>
+                    {loading ?                        
                         <button 
-                            onClick={()=>{}}
-                            className='text-white font-bold bg-indigo-600 p-4 cursor-pointer hover:scale-105 transition transform duration-200 ease-out w-full '>
+                        
+                        className='text-white font-bold bg-gray-300 p-4 cursor-pointer hover:scale-105 transition transform duration-200 ease-out w-full '>
+                            <Spin />
+                        </button>: 
+                                               
+                        <button 
+                        onClick={()=>submitHandler()}
+                        className='text-white font-bold bg-indigo-600 p-4 cursor-pointer hover:scale-105 transition transform duration-200 ease-out w-full '>
                             Update
-                        </button>
+                        </button> }
                     </div>
                     <>
                         <Modal title="Add Your Service" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
