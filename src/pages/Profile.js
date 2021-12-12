@@ -37,7 +37,7 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, F
 
 function Profile() {
     const [value, setvalue] = useState()
-    const [price, setprice] = useState(0)
+    const [price, setprice] = useState()
     const [name, setname] = useState('')
     const [description, setdescription] = useState('')
     const [number, setnumber] = useState('')

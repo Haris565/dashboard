@@ -9,7 +9,7 @@ import {
   ContainerOutlined,
   MailOutlined,
 } from '@ant-design/icons';
-import {NavLink, Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,7 +23,7 @@ const { SubMenu } = Menu;
 function Sidebar() {
 
     
-    const [collapsed, setcollapsed] = useState(false)
+    const [collapsed, setcollapsed] = useState(true)
 
     const dispatch = useDispatch()
     const auth = useSelector(state => state.auth.isAuthenticated)
@@ -50,21 +50,24 @@ function Sidebar() {
         inlineCollapsed={collapsed}
     >
         <Menu.Item key="1" icon={<PieChartOutlined />}>
-            <NavLink to="/" className="nav-text">Dashboard</NavLink>
+            <Link to="/" className="nav-text">Dashboard</Link>
         </Menu.Item>
         <Menu.Item key="2" icon={<DesktopOutlined />}>
             <Link to="/userProfile" className="nav-text">Profile</Link>
         </Menu.Item>
         
         <Menu.Item key="3" icon={<MailOutlined />} >
-            <NavLink to="/allAppointments" className="nav-text" >Appointments</NavLink>
+            <Link to="/allAppointments" className="nav-text" >Appointments</Link>
         </Menu.Item>
 
             
         <Menu.Item key="6" icon={<DesktopOutlined />}>
-            <NavLink to="/messages" className="nav-text">Messages</NavLink>
+            <Link to="/messages" className="nav-text">Messages</Link>
         </Menu.Item>
-        <Menu.Item key="7" icon={<DesktopOutlined />} onClick={logoutHandler}>
+        <Menu.Item key="7" icon={<DesktopOutlined />}>
+            <Link to="/package" className="nav-text">Package</Link>
+        </Menu.Item>
+        <Menu.Item key="8" icon={<DesktopOutlined />} onClick={logoutHandler}>
             SignOut
         </Menu.Item>
     

@@ -1,6 +1,7 @@
 module.exports = {
   
   // These paths are just examples, customize them to match your project structure
+  mode: 'jit',
   purge: [
     './public/**/*.html',
     './src/**/*.{js,jsx,ts,tsx,vue}',

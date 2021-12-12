@@ -1,5 +1,5 @@
 import {useEffect} from "react"
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './index.css';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -15,6 +15,8 @@ import {  Switch, Route } from "react-router-dom";
 
 import {loadUser} from "./redux/actions/auth"
 import AcceptedTable from "./pages/AcceptedTable";
+import ProtectedRoute from './util/ProtectedRoute';
+import Pakage from './pages/Pakage';
 
 
 
@@ -32,6 +34,7 @@ if(localStorage.token){
 function App() {
     
     const dispatch = useDispatch()
+    
 
     useEffect(() => {
         dispatch(loadUser())
@@ -40,10 +43,9 @@ function App() {
     return (
       
         <Switch>
-            <Route path="/" exact > 
-                <Home />  
-  
-            </Route>
+
+            <ProtectedRoute path="/" exact component={Home}  />
+
    
             <Route path="/login" exact> 
                 <Login />  
@@ -51,15 +53,18 @@ function App() {
             <Route path="/signup" > 
                 <Signup />
             </Route>
-            <Route path="/profile"> 
-                <Profile />
-            </Route>
+       
             <Route path="/forgot"> 
                 <Forget />
             </Route>
           
             <Route path="/reset/:token"> 
                 <Reset  />
+            </Route>
+            
+
+            <Route path="/profile"> 
+                <Profile />
             </Route>
 
             <Route path="/messages"> 
@@ -71,12 +76,16 @@ function App() {
             </Route>
 
             <Route path="/allAppointments"> 
-                {/* <Appointments /> */}
-                <AcceptedTable />
+                <Appointments />
+                {/* <AcceptedTable /> */}
             </Route>
 
             <Route path="/accepted"> 
             <AcceptedTable />
+            </Route>
+
+            <Route path="/package"> 
+                <Pakage />
             </Route>
             
             

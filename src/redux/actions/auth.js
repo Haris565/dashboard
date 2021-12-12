@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR , LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT} from './types';
+import {REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR , LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, GET_PROFILE,} from './types';
 import setAuthToken from '../../util/setAuthToken';
 
 
@@ -23,6 +23,7 @@ export const loadUser = () => async dispatch =>{
                 type:USER_LOADED,
                 payload:res.data
             }) 
+            
         }
   
     }

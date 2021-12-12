@@ -136,7 +136,7 @@ function Salon() {
                         Edit Your Profile
                     </h4>
                     <div className='px-20 flex flex-col w-full'>
-                        <div>
+                        {/* <div>
                             <img
                                 className="w-full h-36 object-cover"
                                 preview={false}
@@ -144,7 +144,7 @@ function Salon() {
                                 // src="https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg"
                                 alt="Your"
                             />
-                        </div>
+                        </div> */}
 
                         {/* <div className="">
                             <FilePond
@@ -164,6 +164,7 @@ function Salon() {
                         <input
                         type="text" placeholder="Your Business Name" 
                         value={name}
+                        onChange={(e)=>setname(e.target.value)}
                         class="text-sm text-gray-base w-full 
                                 bg-gray-700
                                 text-white
@@ -172,6 +173,7 @@ function Salon() {
                         />
                         <textarea name="" id="" cols="30" rows="10" placeholder="Describe Your Business"
                         value={description}
+                        onChange={(e)=>setdescription(e.target.value)}
                         class="text-sm text-gray-base w-full 
                                 mr-3 py-5 px-4  border-2 
                                 bg-gray-700
@@ -184,6 +186,7 @@ function Salon() {
                    
                         <input type="text" name="city" id="city" 
                         value={number}
+                        onChange={(e)=>setnumber(e.target.value)}
                 class="text-sm text-gray-base w-full 
                 mr-3 py-5 px-4 h-2 border-2 
                 bg-gray-700
@@ -193,6 +196,7 @@ function Salon() {
               
                 <input type="text" name="street-address" id="street-address" autocomplete="street-address" placeholder="Enter your address"
                  value={address}
+                 onChange={(e)=>setaddress(e.target.value)}
                  class="text-sm text-gray-base w-full 
                  mr-3 py-5 px-4 h-2 border-2 
                  bg-gray-700
@@ -200,13 +204,13 @@ function Salon() {
                  border-gray-700 rounded mb-2 outline-none"  />
                                       
              
-                        <input type="text" name="city" id="city" 
+                        {/* <input type="text" name="city" id="city" 
                         value={city}
                 class="text-sm text-gray-base w-full 
                 mr-3 py-5 px-4 h-2 border-2 
                 bg-gray-700
                 text-white
-                border-gray-700 rounded mb-2 outline-none" placeholder="City"  />
+                border-gray-700 rounded mb-2 outline-none" placeholder="City"  /> */}
                        
             
 
@@ -270,9 +274,11 @@ function Salon() {
 
                         </ReactMapGL>
                 
-            </div>
+                    </div>
                     <div className='flex flex-grow px-20 mt-5 mb-5'>
-                        <button className='text-white font-bold bg-indigo-600 p-4 cursor-pointer hover:scale-105 transition transform duration-200 ease-out w-full '>
+                        <button 
+                            onClick={()=>{}}
+                            className='text-white font-bold bg-indigo-600 p-4 cursor-pointer hover:scale-105 transition transform duration-200 ease-out w-full '>
                             Update
                         </button>
                     </div>

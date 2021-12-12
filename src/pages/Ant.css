@@ -1,0 +1,14 @@
+.ant-drawer-header {
+    background-color: #374151;
+    border-radius: 0;
+  }
+  
+  .ant-drawer-title {
+    color: #fff;
+  }
+  
+  .ant-drawer-body {
+    background-color: #374151;
+    color: #fff;
+    height: calc(100vh - 55px);
+  }

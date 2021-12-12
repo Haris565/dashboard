@@ -3,7 +3,7 @@ import { Gauge, Liquid } from '@ant-design/charts' ;
 
 function LiquidGraph({firstColor, secondColor, percentage,status }) {
   var config = {
-    percent: 0.25,
+    percent: percentage,
     range: { color: `l(0) 0:${secondColor} 1:${firstColor}` },
     startAngle: Math.PI,
     endAngle: 3 * Math.PI,

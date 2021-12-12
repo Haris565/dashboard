@@ -1,6 +1,9 @@
 import axios from 'axios';
-import {PROFILE_COMPLETE, PROFILE_ERROR, PROFILE_ATTEMPT} from './types';
+import {PROFILE_COMPLETE, PROFILE_ERROR, PROFILE_ATTEMPT, } from './types';
 import { loadUser } from './auth';
+
+
+
 
 
 export const profileComplete = (profile) => async dispatch => {
