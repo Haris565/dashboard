@@ -31,6 +31,7 @@ import Pie from './../components/PieChart';
 import axios from 'axios';
 import moment from 'moment';
 import Payment from './Payment';
+
 const {  Sider, Content } = Layout;
 
 
@@ -69,9 +70,9 @@ function Home() {
     };
 
 
-    // if(price === false){
-    //     return (<Payment />)
-    // }
+    if(user?.paymentComplete === false){
+        return (<Redirect to="/pricing" />)
+    }
     return (
      
         

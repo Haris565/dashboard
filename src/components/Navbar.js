@@ -3,8 +3,12 @@ import {
     MenuFoldOutlined,
   } from '@ant-design/icons';
 import {SearchIcon, MenuIcon, UserCircleIcon, UserIcon, GlobeAltIcon, MenuAlt1Icon, LoginIcon} from "@heroicons/react/solid"
+import { useDispatch } from 'react-redux';
+import { logout } from '../redux/actions/auth';
+
 
 function Navbar() {
+    const dispatch = useDispatch()
     return (
         <header className="sticky top-0 z-50 grid grid-cols-2 bg-gray-800 shadow-sm py-2 px-5 md:px-10   ">
 
@@ -17,7 +21,7 @@ function Navbar() {
             <GlobeAltIcon className='h-6 cursor-pointer text-white'  />
 
                 <div className='flex items-center space-x-2 border-2 p-2 rounded-full text-white '>
-                    <UserIcon className='h-5 cursor-pointer' />
+                    <UserIcon className='h-5 cursor-pointer' onClick={()=>dispatch(logout())} />
                 </div>
               
                

@@ -17,6 +17,8 @@ import {loadUser} from "./redux/actions/auth"
 import AcceptedTable from "./pages/AcceptedTable";
 import ProtectedRoute from './util/ProtectedRoute';
 import Pakage from './pages/Pakage';
+import Payment from "./pages/Payment"
+import Success from './pages/Success';
 
 
 
@@ -87,8 +89,10 @@ function App() {
             <Route path="/package"> 
                 <Pakage />
             </Route>
-            
-            
+
+        
+            <ProtectedRoute path="/pricing" exact component={Payment}  />
+            <Route path="/success"   component={Success}  />
          
           
           
